@@ -1,0 +1,18 @@
+---
+- name: Install etcd from RHEL7 packages
+  yum: pkg=etcd state=latest
+
+- name: Write etcd config file for version 2.0.x
+  template: src=etcd.20.conf.j2 dest=/etc/etcd/etcd.conf
+  notify:
+        - restart etcd
+
+- name: Enable etcd
+  service: name=etcd enabled=yes
+
+- name: Start etcd
+  service: name=etcd state=started
+  register: started_etcd
+
+- include: iptables.yml
+  when: has_iptables.rc == 0
