@@ -1,0 +1,28 @@
+---
+- name: Get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  always_run: yes
+
+- name: Enable iptables at boot
+  service: name=iptables enabled=yes state=started
+
+- name: Open apiserver port with iptables
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 8285 -j ACCEPT -m comment --comment "flannel-port"
+  when: iptablesrules.stdout.find("flannel-port") == -1
+
+- name: Open apiserver port with iptables
+  command: /sbin/iptables -I FORWARD 1 -i flannel0 -o flannel0 -j ACCEPT -m comment --comment "flannel-f1"
+  when: iptablesrules.stdout.find("flannel-f1") == -1
+
+- name: Open apiserver port with iptables
+  command: /sbin/iptables -I FORWARD 1 -i flannel0 ! -o flannel0 -j ACCEPT -m comment --comment "flannel-f2"
+  when: iptablesrules.stdout.find("flannel-f2") == -1
+
+- name: Open apiserver port with iptables
+  command: /sbin/iptables -I FORWARD 1 -o flannel0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT -m comment --comment "flannel-f3"
+  when: iptablesrules.stdout.find("flannel-f2") == -1
+
+- name: Save iptables rules
+  command: service iptables save
+  when: iptablesrules.stdout.find("flannel") == -1
