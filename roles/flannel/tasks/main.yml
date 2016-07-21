@@ -14,3 +14,6 @@
           - delete docker0
           - start docker
           - restart kubelet
+
+- include: iptables.yml
+  when: has_iptables.rc == 0

@@ -1,10 +1,10 @@
 ---
 - name: Write SkyDNS pod file
-  template: src=skydns-rc.yaml.j2 dest=/etc/kubernetes/skydns-rc.yaml
+  template: src=skydns-rc.yml.j2 dest=/etc/kubernetes/skydns-rc.yaml
   when: dns_setup
 
 - name: Write SkyDNS service file
-  template: src=skydns-svc.yaml.j2 dest=/etc/kubernetes/skydns-svc.yaml
+  template: src=skydns-svc.yml.j2 dest=/etc/kubernetes/skydns-svc.yaml
   when: dns_setup
 
 

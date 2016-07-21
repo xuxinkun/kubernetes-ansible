@@ -30,3 +30,13 @@ You already did the config!  Just run the setup::
 
     $ ansible-playbook -i inventory setup.yml
 
+# Changelog
+
+## 0.1
+
+- first version
+
+## 0.2
+
+- add skydns
+- add iptables for flannel

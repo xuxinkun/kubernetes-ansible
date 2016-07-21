@@ -26,7 +26,7 @@ kube_overlay_prefix: 16
 # Kubernetes won't do this for you (yet).
 
 # Turn this varable to 'false' to disable whole DNS configuration.
-dns_setup: false
+dns_setup: true
 
 # Internal DNS domain name.
 # This domain must not be used in your network. Services will be discoverable
