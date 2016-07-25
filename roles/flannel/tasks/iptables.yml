@@ -8,7 +8,7 @@
   service: name=iptables enabled=yes state=started
 
 - name: Open apiserver port with iptables
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport 8285 -j ACCEPT -m comment --comment "flannel-port"
+  command: /sbin/iptables -I INPUT 1 -p udp --dport 8285 -j ACCEPT -m comment --comment "flannel-port"
   when: iptablesrules.stdout.find("flannel-port") == -1
 
 - name: Open apiserver port with iptables
